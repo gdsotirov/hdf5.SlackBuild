@@ -19,13 +19,13 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: hdf5.SlackBuild,v 1.1 2016/10/02 17:49:54 gsotirov Exp $
+# $Id: hdf5.SlackBuild,v 1.2 2016/10/02 19:01:25 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=hdf5
-VERSION=1.8.11
+VERSION='1.8.15-patch1'
 ARCH=${ARCH:-i486}
 BUILD=${BUILD:-1}
 
