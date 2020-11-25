@@ -8,4 +8,4 @@ hdf5: of HDF5. The HDF5 Technology suite includes tools and applications for
 hdf5: managing, manipulating, viewing, and analyzing data in the HDF5 format. 
 hdf5: This package included C++ and Fortran interfaces.
 hdf5:
-hdf5: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
+hdf5: Packaged by Georgi D. Sotirov <gdsotirov@gmail.com>
