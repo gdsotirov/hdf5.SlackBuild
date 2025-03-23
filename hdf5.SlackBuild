@@ -53,25 +53,32 @@ tar --extract --verbose --file=$CWD/${NAME}-${VERSION}.tar.gz || exit 3
 cd $SRC
 fix_source
 
+# Apply patch (if any)
+if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
+  patch --backup --strip=1 --suffix=.orig < $CWD/${NAME}-${VERSION}.diff || exit 4
+fi
+
 # Configure
+autoreconf --force --install --verbose || exit 5
 CFLAGS=$SLKCFLAGS \
 CXXFLAGS=$SLKCFLAGS \
+FCFLAGS=$SLKCFLAGS \
 ./configure --build="${ARCH}-slackware-linux" \
             --host="${ARCH}-slackware-linux" \
             --prefix=/usr \
             --libdir=/usr/lib${LIBDIRSUFFIX} \
             --sysconfdir=/etc \
             --enable-fortran \
-            --enable-fortran2003 \
             --enable-cxx \
+            --enable-hl \
             --enable-shared=yes \
             --enable-static=no \
             --with-pthread \
-            --with-zlib || exit 4
+            --with-zlib || exit 6
 
 # Build & install
-make V=1 --jobs all || exit 5
-make DESTDIR=$PKG install || exit 6
+make V=1 --jobs all || exit 7
+make DESTDIR=$PKG install || exit 8
 
 # Prepare
 bin_perms $PKG
@@ -91,6 +98,10 @@ install --mode 644 --preserve-timestamp \
         $CWD/slack-desc         $SBDIR/slack-desc
 install --mode 644 --preserve-timestamp \
         $CWD/slack-required     $SBDIR/slack-required
+if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
+install --mode 644 --preserve-timestamps \
+        $CWD/${NAME}-${VERSION}.diff $SBDIR/${NAME}-${VERSION}.diff
+fi
 install --mode 644 --preserve-timestamp \
         $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
 

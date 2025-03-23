@@ -1,0 +1,22 @@
+# Downgrade autoconf version for Slackware 15.0 and fix 32 bit buld
+# See https://github.com/HDFGroup/hdf5/issues/4916
+diff -urNad hdf5-1.14.6-orig/configure.ac hdf5-1.14.6/configure.ac
+--- hdf5-1.14.6-orig/configure.ac	2025-02-05 16:11:32.000000000 +0200
++++ hdf5-1.14.6/configure.ac	2025-03-23 18:34:53.433853001 +0200
+@@ -13,7 +13,7 @@
+ ## ----------------------------------------------------------------------
+ ## Initialize configure.
+ ##
+-AC_PREREQ([2.71])
++AC_PREREQ([2.69])
+ 
+ ## AC_INIT takes the name of the package, the version number, and an
+ ## email address to report bugs. AC_CONFIG_SRCDIR takes a unique file
+@@ -854,6 +854,7 @@
+   if test "$MY_FLT128_DIG" -gt "$MY_LDBL_DIG" ; then
+     AC_MSG_RESULT([yes])
+     AC_DEFINE([HAVE_FLOAT128], [1], [Determine if __float128 will be used in the Fortran wrappers])
++    AC_CHECK_SIZEOF([__float128])
+   else
+     ## Can't use __float128, but write an undef line anyway
+     AC_MSG_RESULT([no])
